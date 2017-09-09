@@ -2,7 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Agency;
+use AppBundle\Entity\Associate;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -154,39 +157,48 @@ class DefaultController extends Controller
 	}
 
 	/**
-	 * @Route("/agency", name="agency")
+	 * @Route("/agency/{id}", name="agency")
+	 * @ParamConverter("agency", class="AppBundle:Agency")
 	 */
-	public function agencyAction(Request $request)
+	public function agencyAction(Agency $agency)
 	{
 		$resource = [
-			"title" => "Une architecture <br/> pour tous",
-			"image1" => "img/agency/marin1.jpg",
+			"title" => $agency->getCatchword(),
+			"image" => "img/agency/marin1.jpg",
 			"image2" => "img/agency/marin2.jpg",
-			"description" => "AM2 Architecture est la collaboration de deux soeurs d'origine colombienne et diplômées Architectes HMONP ( = DPLG) en 2010. Pour enrichir leurs compétences, l’une, Martha Marin, a fait des études d'architecte d'intérieur, et l’autre, Angela Marin, d’urbanisme. Après plusieurs années de collaboration dans différentes agences d'architecture comme TOA Architectes ou Groupe 6, à Paris, Avignon, Marrakech et Bogota entre autre, elles décident en 2015 de s’associer pour créer leur propre structure. Grâce à leur bagage multiculturel et leurs formations, elles offrent, tout en étant moderne, une architecture sensible et fonctionnelle. <br/> <br/> L'ambition d’AM2 est d'enrichir les espaces en rendant leur usages plus adéquats et agréables aux habitants. \"La richesse d'un espace est à la base de notre qualité de vie\". Leur inspiration commence par le détail : une touche de couleur, un rayon de soleil, un objet réinventé ou un espace multifonctionnel qui contribuent à améliorer le quotidien. <br/> <br/> AM2 utilise sa sensibilité et sa créativité pour concevoir des espaces qualitatifs, comfortables et durables, et créer leur identité. Douce et pure mais à la fois contrastée et dynamique elle interpelle, elle surprend, elle émerveille. <br/> <br/> L'architecture d'AM2 naît du dialogue avec le client, du programme et de l'espace. Chaque client et chaque lieu sont uniques et tout \"objet\" peut être une petite architecture. L'objectif de l'agence est de donner les moyens aux usagers pour qu'ils puissent s'approprier de l'espace en y créant leur propre histoire. <br/> <br/> AM2 produit une architecture pour tous et vise à offrir beaucoup en usant peu."
+			"description" => $agency->getDescription(),
 		];
 
-		return $this->crossDomainJsonResponse($resource);
+		$response = $this->crossDomainJsonResponse($resource);
+		$response->setEncodingOptions(JSON_UNESCAPED_SLASHES);
+
+		return $response;
 	}
 
 	/**
-	 * @Route("/contact", name="contact")
+	 * @Route("/agency/{id}/contact", name="contact")
+	 * @ParamConverter("agency", class="AppBundle:Agency")
 	 */
-	public function contactAction(Request $request)
+	public function contactAction(Agency $agency)
 	{
+		$associates = $this->getDoctrine()->getManager()->getRepository(Associate::class)->findByAgency($agency);
+
+		$associatesView = array();
+
+		foreach ($associates as $associate) {
+			$associatesView[] = array(
+				"firstName" => $associate->getFirstName(),
+				"lastName" => $associate->getLastName(),
+				"phone" => $associate->getPhone(),
+			);
+		};
+
 		$resource = [
-			"associates" => [
-				[
-					"name" => "Angela GLEYZE MARIN",
-					"phone" => "07 83 93 11 91",
-				],
-				[
-					"name" => "Martha BAILLY MARIN",
-					"phone" => "06 50 88 56 00",
-				]
-			],
-			"address" => "103 rue du Chemin Vert, 75011 Paris",
-			"email" => "contact@am2-architecture.com",
-			"image" => "img/contact/bogota.jpg",
+			"associates" => $associatesView,
+			"address" => $agency->getAddress(),
+			"email" => $agency->getEmail(),
+			"phone" => $agency->getPhone(),
+			"image" => $agency->getImagePath(),
 		];
 
 		return $this->crossDomainJsonResponse($resource);
