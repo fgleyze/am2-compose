@@ -10,11 +10,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  *
  * @ORM\Table(name="agency")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AgencyRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class Agency
 {
-    const SERVER_PATH_TO_IMAGE_FOLDER = 'assets/images/agency';
+    const IMAGE_RELATIVE_PATH = 'upload/images/';
 
     /**
      * @var int
@@ -75,11 +74,18 @@ class Agency
     private $associates;
 
     /**
+     * @ORM\OneToMany(targetEntity="Project", mappedBy="agency")
+     */
+    private $projects;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="image_name", type="string", length=100, nullable=true)
      */
     private $imageName;
+
+    private $image;
 
     /**
      * @var string
@@ -87,11 +93,6 @@ class Agency
      * @ORM\Column(name="update_at", type="datetime", nullable=true)
      */
     private $updatedAt;
-
-    /**
-     * Unmapped property to handle file uploads
-     */
-    private $file;
 
     public function __toString()
     {
@@ -180,84 +181,38 @@ class Agency
         return $this->imageName;
     }
 
-    public function getImagePath()
+    public function setImageName($imageName)
     {
-        return self::SERVER_PATH_TO_IMAGE_FOLDER . "/" . $this->imageName;
-    }
-
-
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new \DateTime();
+        $this->imageName = $imageName;
 
         return $this;
     }
 
-    public function getUpdatedAt()
+    public function getImageRelativePath()
     {
-        return $this->updatedAt;
+        return self::IMAGE_RELATIVE_PATH . $this->imageName;
     }
 
-    /**
-     * Sets file.
-     *
-     * @param UploadedFile $file
-     */
-    public function setFile(UploadedFile $file = null)
+    public function getThumbRelativePath()
     {
-        $this->file = $file;
+        return self::IMAGE_RELATIVE_PATH . 'thumb_' . $this->imageName;
     }
 
-    /**
-     * Get file.
-     *
-     * @return UploadedFile
-     */
-    public function getFile()
+    public function setImage($image)
     {
-        return $this->file;
+        $this->image = $image;
+
+        return $this;
     }
 
-    /**
-     * Manages the copying of the file to the relevant place on the server
-     */
-    public function upload()
+    public function getImage()
     {
-        // the file property can be empty if the field is not required
-        if (null === $this->getFile()) {
-            return;
-        }
-
-        // we use the original file name here but you should
-        // sanitize it at least to avoid any security issues
-
-        // move takes the target directory and target imageName as params
-        $this->getFile()->move(
-            self::SERVER_PATH_TO_IMAGE_FOLDER,
-            $this->getFile()->getClientOriginalName()
-        );
-
-        // set the path property to the imageName where you've saved the file
-        $this->imageName = $this->getFile()->getClientOriginalName();
-
-        // clean up the file property as you won't need it anymore
-        $this->setFile(null);
+        return $this->image;
     }
 
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function lifecycleFileUpload()
+    public function getAssociates()
     {
-        $this->upload();
-    }
-
-    /**
-     * Updates the hash value to force the preUpdate and postUpdate events to fire
-     */
-    public function refreshUpdated()
-    {
-        $this->setUpdatedAt(new \DateTime());
+        return $this->associates;
     }
 }

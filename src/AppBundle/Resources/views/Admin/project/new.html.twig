@@ -1,0 +1,40 @@
+{% extends '@AppBundle/Admin/index.html.twig' %}
+
+{% block body %}
+    <h4>Create Project</h4>
+
+    {{ form_start(form, { 'attr': {'class': 'mb-4'} }) }}
+        <div class="form-group">
+            {{ form_label(form.title) }}
+            {{ form_errors(form.title) }}
+            {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.position) }}
+            {{ form_errors(form.position) }}
+            {{ form_widget(form.position, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.description) }}
+            {{ form_errors(form.description) }}
+            {{ form_widget(form.description, { 'attr': {'class': 'form-control', 'rows': 10} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.features) }}
+            {{ form_errors(form.features) }}
+            {{ form_widget(form.features, { 'attr': {'class': 'form-control', 'rows': 10} }) }}
+        </div>
+
+        <a href="{{ path('projects_index') }}" class="btn btn-outline-info mr-2">< Back to the list</a>
+        <input type="submit" value="Add project" class="btn btn-primary"/>
+
+        <div class="d-none">
+            {{ form_widget(form) }}
+        </div>
+    {{ form_end(form) }}
+
+
+{% endblock %}

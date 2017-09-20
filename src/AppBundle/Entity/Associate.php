@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Agency;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,7 +46,6 @@ class Associate
     /**
      * @var int
      *
-     * @ORM\Column(name="agency_id", type="integer")
      * @ORM\ManyToOne(targetEntity="Agency", inversedBy="associates")
      * @ORM\JoinColumn(name="agency_id", referencedColumnName="id")
      */
@@ -133,25 +133,13 @@ class Associate
         return $this->phone;
     }
 
-    /**
-     * Set agency
-     *
-     * @param integer $agency
-     *
-     * @return Associate
-     */
-    public function setAgency($agency)
+    public function setAgency(Agency $agency)
     {
         $this->agency = $agency;
 
         return $this;
     }
 
-    /**
-     * Get agency
-     *
-     * @return int
-     */
     public function getAgency()
     {
         return $this->agency;

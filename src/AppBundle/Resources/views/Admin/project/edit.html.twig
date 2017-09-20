@@ -1,0 +1,93 @@
+{% extends '@AppBundle/Admin/index.html.twig' %}
+
+{% block body %}
+    <h4>{{ project.title }}</h4>
+
+    {{ form_start(edit_form, { 'attr': {'class': 'mb-4'} }) }}
+        <div class="form-group">
+            {{ form_label(edit_form.title) }}
+            {{ form_errors(edit_form.title) }}
+            {{ form_widget(edit_form.title, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(edit_form.position) }}
+            {{ form_errors(edit_form.position) }}
+            {{ form_widget(edit_form.position, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(edit_form.description) }}
+            {{ form_errors(edit_form.description) }}
+            {{ form_widget(edit_form.description, { 'attr': {'class': 'form-control', 'rows': 10} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(edit_form.features) }}
+            {{ form_errors(edit_form.features) }}
+            {{ form_widget(edit_form.features, { 'attr': {'class': 'form-control', 'rows': 10} }) }}
+        </div>
+        <ul id="projectImagesCount-fields-list" class="mb-4"
+            data-prototype="{{ form_widget(edit_form.projectImages.vars.prototype)|e }}">
+            {% for projectImage in edit_form.projectImages %}
+                <li>
+                    <div class="form-group">
+                        {{ form_label(projectImage.image) }}
+                        {{ form_errors(projectImage.image) }}
+                        {{ form_widget(projectImage.image) }}
+                    </div>
+
+
+                    <img src="{{ asset(projectImage.vars.value.thumbRelativePath) }}" class="img-fluid"/>
+
+                    <div class="form-group">
+                        {{ form_label(projectImage.position) }}
+                        {{ form_errors(projectImage.position) }}
+                        {{ form_widget(projectImage.position) }}
+                    </div>
+                </li>
+
+                <a href="{{ path('delete_project_image', { 'id': projectImage.vars.value.id }) }}" class="btn btn-outline-danger mr-2"/>delete image</a>
+            {% endfor %}
+        </ul>
+
+        <a href="{{ path('projects_index') }}" class="btn btn-outline-info mr-2"/>< Back to the list</a>
+        <a href="#" id="add-another-projectImage" class="btn btn-outline-primary mr-2"/>+ Add image</a>
+        <input type="submit" value="Save changes" class="btn btn-primary mr-2"/>
+
+
+        {{ form_widget(edit_form) }}
+    {{ form_end(edit_form) }}
+
+    {{ form_start(delete_form) }}
+        <input type="submit" value="/!\ Delete /!\"  class="btn btn-danger mb-4"/>
+    {{ form_end(delete_form) }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    <script type="text/javascript">
+        // keep track of how many email fields have been rendered
+        var projectImagesCount = '{{ project.projectImages|length }}';
+
+        jQuery(document).ready(function() {
+            jQuery('#add-another-projectImage').click(function(e) {
+                e.preventDefault();
+
+                var projectImagesList = jQuery('#projectImagesCount-fields-list');
+
+                // grab the prototype template
+                var newWidget = projectImagesList.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                newWidget = newWidget.replace(/__name__/g, projectImagesCount);
+                projectImagesCount++;
+
+                // create a new list element and add it to the list
+                var newLi = jQuery('<li></li>').html(newWidget);
+                newLi.appendTo(projectImagesList);
+            });
+        })
+    </script>
+{% endblock %}

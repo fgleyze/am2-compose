@@ -8,6 +8,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    uploaded_images_directory: '%kernel.project_dir%/web/upload/images'
 
 framework:
     #esi:             ~
@@ -18,7 +19,7 @@ framework:
         strict_requirements: ~
     form:            ~
     csrf_protection: ~
-    validation:      { enable_annotations: true }
+    validation:      { enabled: true, enable_annotations: true }
     #serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
@@ -39,6 +40,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    paths:
+        '%kernel.project_dir%/src/AppBundle/Resources/views': AppBundle
 
 # Doctrine Configuration
 doctrine:
@@ -77,14 +80,4 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-sonata_block:
-    default_contexts: [cms]
-    blocks:
-
-        # enable the SonataAdminBundle block
-        sonata.admin.block.admin_list:
-            contexts:   [admin]
-
-sonata_admin:
-    title:      Acme
-    title_logo: bundles/app/images/fancy_acme_logo.png
+nelmio_api_doc: ~

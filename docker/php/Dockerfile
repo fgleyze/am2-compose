@@ -18,6 +18,12 @@ RUN apt-get update && \
     apt-get install -y libpq-dev && \
     docker-php-ext-install pdo_pgsql
 
+#install Imagemagick & PHP Imagick ext
+RUN apt-get update && apt-get install -y \
+        libmagickwand-dev --no-install-recommends
+
+RUN pecl install imagick && docker-php-ext-enable imagick
+
 RUN curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony
 RUN chmod a+x /usr/local/bin/symfony
 

@@ -1,0 +1,83 @@
+$resource = [
+		"id" => $id,
+		"title" => "BUREAUX : LA RUCHE QUI DIT OUI !, À PARIS",
+		"mainImage" => "img/projets/la-ruche-qui-dit-oui-bureaux/A.jpg",
+		"images" => [
+			[
+				"url" => "img/projets/la-ruche-qui-dit-oui-bureaux/B.jpg",
+				"thumbsUrl" => "img/projets/la-ruche-qui-dit-oui-bureaux/thumbs/B.jpg",
+				"width" => "500px",
+				"height" => "375px",
+				"thumbsWidth" => 500,
+				"thumbsHeight" => 322,
+			],
+			[
+				"url" => "img/projets/la-ruche-qui-dit-oui-bureaux/C.jpg",
+				"thumbsUrl" => "img/projets/la-ruche-qui-dit-oui-bureaux/thumbs/C.jpg",
+				"width" => "px",
+				"height" => "px",
+				"thumbsWidth" => 500,
+				"thumbsHeight" => 342,
+			],
+			[
+				"url" => "img/projets/la-ruche-qui-dit-oui-bureaux/D.jpg",
+				"thumbsUrl" => "img/projets/la-ruche-qui-dit-oui-bureaux/thumbs/D.jpg",
+				"width" => "px",
+				"height" => "px",
+				"thumbsWidth" => 500,
+				"thumbsHeight" => 234,
+			],
+			[
+				"url" => "img/projets/la-ruche-qui-dit-oui-bureaux/E.jpg",
+				"thumbsUrl" => "img/projets/la-ruche-qui-dit-oui-bureaux/thumbs/E.jpg",
+                "width" => "px",
+                "height" => "px",
+                "thumbsWidth" => 500,
+				"thumbsHeight" => 377,
+			],
+			[
+				"url" => "img/projets/la-ruche-qui-dit-oui-bureaux/F.jpg",
+				"thumbsUrl" => "img/projets/la-ruche-qui-dit-oui-bureaux/thumbs/F.jpg",
+                "width" => "px",
+                "height" => "px",
+                "thumbsWidth" => 500,
+				"thumbsHeight" => 333,
+			],
+			[
+				"url" => "img/projets/la-ruche-qui-dit-oui-bureaux/G.jpg",
+				"thumbsUrl" => "img/projets/la-ruche-qui-dit-oui-bureaux/thumbs/G.jpg",
+                "width" => "px",
+                "height" => "px",
+                "thumbsWidth" => 500,
+				"thumbsHeight" => 259,
+			]
+		],
+		"features" =>
+		"
+			<li>
+				<b>Client :</b> La Ruche Qui Dit Oui
+			</li>
+			<li>
+				<b>Budget :</b> 119 000€
+			</li>
+			<li>
+				<b>Superficie :</b> 110 m2
+			</li>
+			<li>
+				<b>Lieu :</b> Bastille, Paris
+			</li>
+			<li>
+				<b>Mission :</b> Complète (de la conception à réalisation)
+			</li>
+			<li>
+				<b>Calendrier :</b> En chantier, livré en 2017
+			</li>
+			<li>
+				<b>Programme :</b> Salles de réunions, Brainstorming et Salle de détente
+			</li>
+			<li>
+				<b>Partenariat avec BäN Architecture</b>
+			</li>
+		",
+		"description" => "La Ruche Qui Dit Oui fait appel à nous pour traduire leur philosophie et principes dans l’architecture de leurs nouveaux bureaux à Bastille. <br/><br/>Ils souhaitent donner une nouvelle image aux clients et aux investisseurs : une start-up solide qui s’installe sereinement dans le marché ; une boite moderne, qui évolue et qui est prête à se développer au-delà des frontières. Les locaux qui leur tient le plus au cœur nous sont confiés : des salles de réunion pour différents types de publics, un brainstorming cosi d’où sortiront toutes les nouvelles idées de l’entreprise et une salle de détente et de réunions internes qui coupe du quotidien. "
+	];

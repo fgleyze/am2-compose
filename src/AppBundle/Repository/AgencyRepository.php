@@ -2,6 +2,9 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Agency;
+use Doctrine\ORM\EntityRepository;
+
 /**
  * AgencyRepository
  *
@@ -10,4 +13,14 @@ namespace AppBundle\Repository;
  */
 class AgencyRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findLastAgencyPersisted() {
+        return $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('agency')
+            ->from(Agency::class, 'agency')
+            ->orderBy('agency.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

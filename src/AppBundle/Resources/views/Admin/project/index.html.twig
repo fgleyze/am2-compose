@@ -1,0 +1,26 @@
+{% extends '@AppBundle/Admin/index.html.twig' %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Position</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for project in projects %}
+            <tr>
+                <td>{{ project.title }}</td>
+                <td>{{ project.position }}</td>
+                <td>
+                    <a href="{{ path('projects_edit', { 'id': project.id }) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('projects_new') }}" class="btn btn-outline-primary"/>+ Create a new project</a>
+{% endblock %}
