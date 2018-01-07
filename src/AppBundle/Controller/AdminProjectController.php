@@ -103,6 +103,11 @@ class AdminProjectController extends Controller
                     $file = $projectImage->getImage();
                     $fileName = $fileUploader->upload($file);
                     $projectImage->setImageName($fileName);
+
+                    $projectImage->setGeometry(
+                        $fileUploader->getGeometry($projectImage->getRelativePath()),
+                        $fileUploader->getGeometry($projectImage->getThumbRelativePath())
+                    );
                 }
 
                 if (!$projectImage->getImageName()) {

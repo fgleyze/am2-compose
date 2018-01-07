@@ -12,11 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("api")
+ */
 class ApiController extends Controller
 {
 	/**
-	 * @Route("/{id}", name="homepage", defaults={"id": 0}, requirements={"id": "\d+"})
-	 * @Route("/agencies/{id}", name="agency", requirements={"id": "\d+"})
+	 * @Route("/agencies/{id}", name="agency", defaults={"id": 0}, requirements={"id": "\d+"})
 	 */
 	public function agencyAction(Request $request)
 	{
@@ -34,18 +36,23 @@ class ApiController extends Controller
 			"description" => $agency->getDescription(),
 		];
 
-		$response = $this->crossDomainJsonResponse($resource);
+		$response = new JsonResponse($resource);
 		$response->setEncodingOptions(JSON_UNESCAPED_SLASHES);
 
 		return $response;
 	}
 
 	/**
-	 * @Route("/agencies/{id}/associates", name="associates", requirements={"id": "\d+"})
-	 * @ParamConverter("agency", class="AppBundle:Agency")
+	 * @Route("/agencies/{id}/associates", name="associates", defaults={"id": 0}, requirements={"id": "\d+"})
 	 */
-	public function associatesAction(Agency $agency)
+	public function associatesAction(Request $request)
 	{
+		if (0 == $request->attributes->get('id')) {
+			$agency = $this->getDoctrine()->getManager()->getRepository(Agency::class)->findLastAgencyPersisted();
+		} else {
+			$agency = $this->getDoctrine()->getManager()->find(Agency::class, $request->attributes->get('id'));
+		}
+
 		$associates = $this->getDoctrine()->getManager()->getRepository(Associate::class)->findByAgency($agency);
 
 		$associatesView = array();
@@ -66,15 +73,20 @@ class ApiController extends Controller
 			"image" => $agency->getImageRelativePath(),
 		];
 
-		return $this->crossDomainJsonResponse($resource);
+		return new JsonResponse($resource);
 	}
 
 	/**
-	 * @Route("/agencies/{id}/projects", name="projects", requirements={"id": "\d+"})
-	 * @ParamConverter("agency", class="AppBundle:Agency")
+	 * @Route("/agencies/{id}/projects", name="projects", defaults={"id": 0}, requirements={"id": "\d+"})
 	 */
-	public function projectsAction(Agency $agency)
+	public function projectsAction(Request $request)
 	{
+		if (0 == $request->attributes->get('id')) {
+			$agency = $this->getDoctrine()->getManager()->getRepository(Agency::class)->findLastAgencyPersisted();
+		} else {
+			$agency = $this->getDoctrine()->getManager()->find(Agency::class, $request->attributes->get('id'));
+		}
+
 		$projects = $this->getDoctrine()->getManager()->getRepository(Project::class)->findByAgency($agency);
 
 		$projectsView = array();
@@ -82,7 +94,7 @@ class ApiController extends Controller
 		$projectsMainImages = $this->getDoctrine()->getManager()->getRepository(ProjectImage::class)->findByAgencyAndPosition($agency, 0);
 
 		foreach ($projects as $project) {
-			$imagePath = $projectsMainImages[$project->getId()]->getRelativePath();
+			$imagePath = $projectsMainImages[$project->getId()]->getThumbRelativePath();
 
 			$projectsView[] = array(
 				"id" => $project->getId(),
@@ -91,7 +103,7 @@ class ApiController extends Controller
 			);
 		};
 
-		return $this->crossDomainJsonResponse($projectsView);
+		return new JsonResponse($projectsView);
 	}
 
 	/**
@@ -104,8 +116,12 @@ class ApiController extends Controller
 
 		foreach ($project->getImages() as $image) {
 			$imagesView[] = array(
-				"thumbsUrl" => $image->getRelativePath(),
 				"imageUrl" => $image->getRelativePath(),
+				"imageWidth" => $image->getWidth(),
+				"imageHeight" => $image->getHeight(),
+				"thumbUrl" => $image->getThumbRelativePath(),
+				"thumbWidth" => $image->getThumbWidth(),
+				"thumbHeight" => $image->getThumbHeight(),
 				"position" => $image->getPosition(),
 			);
 		};
@@ -113,16 +129,11 @@ class ApiController extends Controller
 		$projectView = array(
 			"id" => $project->getId(),
 			"title" => $project->getTitle(),
-			"features" => $project->getFeatures(),
+			"features" => explode("\n", $project->getFeatures()),
 			"description" => $project->getDescription(),
 			"images" => $imagesView,
 		);
 
-		return $this->crossDomainJsonResponse($projectView);
-	}
-
-	private function crossDomainJsonResponse($resource)
-	{
-		return new JsonResponse($resource, 200, array('Access-Control-Allow-Origin'=> '*'));
+		return new JsonResponse($projectView);
 	}
 }

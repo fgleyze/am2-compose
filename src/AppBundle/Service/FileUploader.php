@@ -38,11 +38,19 @@ class FileUploader
         return $this->targetDir;
     }
 
+    public function getGeometry($fileName)
+    {
+        $imagick = new \Imagick(realpath($fileName));
+        return $imagick->getImageGeometry();
+    }
+
     private function createThumb($projectPath, $image)
     {
         $imagick = new \Imagick(realpath($projectPath . '/' . $image));
         $geometryInfo = $imagick->getImageGeometry();
-        $imagick->resizeImage(500, intval(500/$geometryInfo['height']), \Imagick::FILTER_LANCZOS, 1);
+        if ($geometryInfo['height'] > 500) {
+            $imagick->resizeImage(500, intval(500/$geometryInfo['height']), \Imagick::FILTER_LANCZOS, 1);
+        }
         $imagick->writeImage();
         $imagick->clear();
         $imagick->destroy();

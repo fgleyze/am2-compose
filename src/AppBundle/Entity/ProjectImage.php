@@ -56,6 +56,34 @@ class ProjectImage
     private $position;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="width", type="integer")
+     */
+    private $width;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="height", type="integer")
+     */
+    private $height;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="thumb_width", type="integer")
+     */
+    private $thumbWidth;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="thumb_height", type="integer")
+     */
+    private $thumbHeight;
+
+    /**
      * Get id
      *
      * @return int
@@ -151,8 +179,6 @@ class ProjectImage
     }
 
     /**
-     * Get project
-     *
      * @return int
      */
     public function getProject()
@@ -161,10 +187,6 @@ class ProjectImage
     }
 
     /**
-     * Set position
-     *
-     * @param integer $position
-     *
      * @return ProjectImage
      */
     public function setPosition($position)
@@ -175,12 +197,55 @@ class ProjectImage
     }
 
     /**
-     * Get position
-     *
      * @return int
      */
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * @return int
+     */
+    public function setGeometry(array $geometry, array $thumbGeometry)
+    {
+        $this->width = $geometry['width'];
+        $this->height = $geometry['height'];
+        $this->thumbWidth = $thumbGeometry['width'];
+        $this->thumbHeight = $thumbGeometry['height'];
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     * @return int
+     */
+    public function getThumbWidth()
+    {
+        return $this->thumbWidth;
+    }
+
+    /**
+     * @return int
+     */
+    public function getThumbHeight()
+    {
+        return $this->thumbHeight;
     }
 }
