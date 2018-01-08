@@ -17,3 +17,4 @@
 /web/bundles/
 /web/upload/*
 /web/assets/*
+/php-variables.env

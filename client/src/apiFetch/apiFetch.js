@@ -1,6 +1,6 @@
 import 'whatwg-fetch'
 
-export const baseUrl = 'http://localhost:93/'
+export const baseUrl = 'http://' + window.location.hostname + ':' + window.location.port + '/'
 
 export function fetchProjectList() {
     return fetch(baseUrl + 'api/agencies/0/projects').then(res => res.json());
