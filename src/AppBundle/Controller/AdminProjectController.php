@@ -160,9 +160,15 @@ class AdminProjectController extends Controller
      */
     public function deleteProjectImageAction(Request $request, ProjectImage $projectImage)
     {
+        $thumbPath = $projectImage->getThumbRelativePath();
+        $path = $projectImage->getRelativePath();
+
         $em = $this->getDoctrine()->getManager();
         $em->remove($projectImage);
         $em->flush();
+
+        unlink($thumbPath);
+        unlink($path);
 
         return $this->redirectToRoute('projects_edit', array('id' => $projectImage->getProject()->getId()));
     }

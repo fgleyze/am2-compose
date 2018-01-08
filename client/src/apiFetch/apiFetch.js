@@ -11,7 +11,7 @@ export function fetchProjectDetail(projectId) {
 }
 
 export function fetchAgency() {
-    return fetch(baseUrl  + `api`).then(res => res.json());
+    return fetch(baseUrl  + `api/agencies/0`).then(res => res.json());
 }
 
 export function fetchContact() {

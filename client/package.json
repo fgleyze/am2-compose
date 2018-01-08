@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && mv build ../web/assets && mv ../web/assets/img ../web/img",
+    "build": "react-scripts build && rm -rf ../web/assets && mv build ../web/assets && rm -rf ../web/img && mv ../web/assets/img ../web/img",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
