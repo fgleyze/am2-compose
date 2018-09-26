@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { fetchProjectList } from '../../apiFetch/apiFetch';
 
-import ProjectCard from '../../components/Project/ProjectCard';
+import ProjectCard from '../../components/ProjectList/ProjectCard';
 
-class ProjectList extends Component {
+class ProjectListContainer extends Component {
   state = {projectList: []}
 
   componentDidMount() {
   	fetchProjectList().then(projectList => this.setState({ projectList }))
-  }		
+  }
 
   render() {
     return (
@@ -21,4 +21,4 @@ class ProjectList extends Component {
   }
 }
 
-export default ProjectList;
+export default ProjectListContainer;
