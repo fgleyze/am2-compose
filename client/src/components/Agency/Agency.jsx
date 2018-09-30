@@ -15,14 +15,18 @@ class Agency extends Component {
   render() {
     return (
     <Container className="row">
-        <Images id="js-agence-change" className="col-xl-6 am2-agence-img">
-            <img id="js-agence-serious" src={'/img/marin-1.jpg'} className="img-fluid"/>
-            <img id="js-agence-fun" src={'/img/marin-2.jpg'} className="img-fluid"/>
-        </Images>
-        <Content className="col-xl-5">
-            <h1 dangerouslySetInnerHTML={{__html:this.state.agency.title}}></h1>
-            <p dangerouslySetInnerHTML={{__html:this.state.agency.description}}></p>
-        </Content>
+      <div className="col-md-8 offset-md-2">
+          <div id="js-agence-change" className="am2-agence-img">
+              <img id="js-agence-serious" src={'/img/marin-1.jpg'} className="img-fluid"/>
+              <img id="js-agence-fun" src={'/img/marin-2.jpg'} className="img-fluid"/>
+          </div>
+      </div>
+      <div className="col-md-6 offset-md-3">
+          <Content>
+              <h1 dangerouslySetInnerHTML={{__html:this.state.agency.title}}></h1>
+              <p dangerouslySetInnerHTML={{__html:this.state.agency.description}}></p>
+          </Content>
+      </div>
     </Container>
     );
   }
@@ -47,28 +51,16 @@ function animateImages() {
 
 const Container = styled.div`
     margin-bottom: ${palette.spacing_unit__xl};
-
-    @media (min-width: ${palette.xl_desktop}) {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-`;
-
-const Images = styled.div`
-    @media (min-width: ${palette.xl_desktop}) {
-      max-width: 50%;
-    }
 `;
 
 const Content = styled.div`
-    font-style: italic;
     text-align: justify;
     text-justify: inter-word;
 
     h1 {
         font-family: ${palette.secondary_font_family};
-        margin: ${palette.spacing_unit__lg} 0;
+        margin: ${palette.spacing_unit__xl} 0 ${palette.spacing_unit__lg} 0;
+        text-align: center;
     }
 `;
 

@@ -102,7 +102,7 @@ const FeaturesList = styled.ul`
 
 const Description = styled.div`
 	text-justify: inter-word;
-	font-style: italic;
+  text-align: justify;
 	padding-right: 30px;
 `;
 

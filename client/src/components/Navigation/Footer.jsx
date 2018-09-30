@@ -21,8 +21,16 @@ class Footer extends Component {
 
     render() {
     	return (
-        	<FooterDiv>
-            <a href={this.state.facebook} target="_blank"> Facebook </a> - <a href={this.state.instagram} target="_blank"> Instagram </a> - <a href={this.state.pinterest} target="_blank"> Pinterest </a>
+        	<FooterDiv className="d-block d-md-none">
+            <a href={this.state.instagram} target="_blank">
+              <img src={'/img/instagram_icon.svg'}/>
+            </a>
+            <a href={this.state.facebook} target="_blank">
+              <img src={'/img/facebook_icon.svg'}/>
+            </a>
+            <a href={this.state.pinterest} target="_blank">
+              <img src={'/img/pinterest_icon.svg'}/>
+            </a>
           </FooterDiv>
         );
     }
@@ -35,6 +43,18 @@ const FooterDiv = styled.div`
 
     & > a {
       color: inherit;
+      margin: 0 8px;
+    }
+
+    & > a > img {
+      width: 25px;
+      position: relative;
+      display: inline-block;
+    }
+
+    a.svg {
+      position: relative;
+      display: inline-block;
     }
 `;
 
