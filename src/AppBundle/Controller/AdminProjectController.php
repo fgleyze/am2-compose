@@ -28,7 +28,7 @@ class AdminProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $projects = $em->getRepository('AppBundle:Project')->findBy(array(), array('position' => 'ASC'));
+        $projects = $em->getRepository('AppBundle:Project')->findBy(array(), array('position' => 'DESC'));
 
         return $this->render('@AppBundle/Admin/project/index.html.twig', array(
             'projects' => $projects,
