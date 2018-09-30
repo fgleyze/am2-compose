@@ -4,7 +4,7 @@ services:
     web:
         image: nginx:1.12.1
         ports:
-            - "${EXTERNAL_PORT:-93}:80"
+            - "127.0.0.1:93:80"
         volumes:
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
             - .:/var/www:ro
@@ -30,6 +30,9 @@ services:
             POSTGRES_DB: symfony
             # default database user name for psql client
             PGUSER: symfony
+        volumes:
+            - $PWD/dump:/dump
+            - $PWD/postgresql:/var/lib/postgresql
     composer:
         image: composer/composer
         volumes:
@@ -42,3 +45,9 @@ services:
             - "${EXTERNAL_MAILCATCHER_PORT:-81}:80"
         expose:
             - "25"
+
+networks:
+    default:
+        external:
+            name: gleyze
+

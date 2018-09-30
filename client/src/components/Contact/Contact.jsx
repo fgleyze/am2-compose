@@ -46,7 +46,7 @@ const Container = styled.div`
 		align-items: center;
 		display: flex;
 		justify-content: center;
-		margin-bottom: ${palette.spacing_unit__lg}
+		margin-bottom: ${palette.spacing_unit__xl}
 	}
 `;
 

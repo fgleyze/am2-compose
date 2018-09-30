@@ -46,6 +46,8 @@ function animateImages() {
 }
 
 const Container = styled.div`
+    margin-bottom: ${palette.spacing_unit__xl};
+
     @media (min-width: ${palette.xl_desktop}) {
       display: flex;
       align-items: center;

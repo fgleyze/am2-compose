@@ -69,9 +69,32 @@ class ApiController extends Controller
 			"associates" => $associatesView,
 			"address" => $agency->getAddress(),
 			"email" => $agency->getEmail(),
+			"facebook" => $agency->getFacebook(),
+			"instagram" => $agency->getInstagram(),
+			"pinterest" => $agency->getPinterest(),
 			"phone" => $agency->getPhone(),
 			"image" => $agency->getImageRelativePath(),
 		];
+
+		return new JsonResponse($resource);
+	}
+
+	/**
+	 * @Route("/agencies/{id}/social", name="social", defaults={"id": 0}, requirements={"id": "\d+"})
+	 */
+	public function socialAction(Request $request)
+	{
+		if (0 == $request->attributes->get('id')) {
+			$agency = $this->getDoctrine()->getManager()->getRepository(Agency::class)->findLastAgencyPersisted();
+		} else {
+			$agency = $this->getDoctrine()->getManager()->find(Agency::class, $request->attributes->get('id'));
+		}
+
+		$resource = array(
+			"facebook" => $agency->getFacebook(),
+			"instagram" => $agency->getInstagram(),
+			"pinterest" => $agency->getPinterest(),
+		);
 
 		return new JsonResponse($resource);
 	}

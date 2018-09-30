@@ -23,6 +23,9 @@ class AgencyType extends AbstractType
             ->add('phone')
             ->add('address')
             ->add('email')
+            ->add('facebook')
+            ->add('instagram')
+            ->add('pinterest')
             ->add('image', FileType::class, array(
                 'data_class' => null,
                 'label' => 'Agence Image (jpg)',

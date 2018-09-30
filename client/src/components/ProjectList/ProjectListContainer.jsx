@@ -12,11 +12,11 @@ class ProjectListContainer extends Component {
 
   render() {
     return (
-      <div className="projectList">
-      	{ this.state.projectList.map( project => {
-      		return <ProjectCard project={project} />
-      	})}
-      </div>
+        <div className="projectList row">
+          	{ this.state.projectList.map( project => {
+          		return <ProjectCard project={project} />
+          	})}
+        </div>
     );
   }
 }

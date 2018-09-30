@@ -69,6 +69,27 @@ class Agency
     /**
      * @var string
      *
+     * @ORM\Column(name="facebook", type="string", length=255, nullable=true)
+     */
+    private $facebook;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="instagram", type="string", length=255, nullable=true)
+     */
+    private $instagram;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pinterest", type="string", length=255, nullable=true)
+     */
+    private $pinterest;
+
+    /**
+     * @var string
+     *
      * @ORM\OneToMany(targetEntity="Associate", mappedBy="agency")
      */
     private $associates;
@@ -174,6 +195,42 @@ class Agency
     public function getEmail()
     {
         return $this->email;
+    }
+
+    public function setFacebook($facebook)
+    {
+        $this->facebook = $facebook;
+
+        return $this;
+    }
+
+    public function getFacebook()
+    {
+        return $this->facebook;
+    }
+
+    public function setInstagram($instagram)
+    {
+        $this->instagram = $instagram;
+
+        return $this;
+    }
+
+    public function getInstagram()
+    {
+        return $this->instagram;
+    }
+
+    public function setPinterest($pinterest)
+    {
+        $this->pinterest = $pinterest;
+
+        return $this;
+    }
+
+    public function getPinterest()
+    {
+        return $this->pinterest;
     }
 
     public function getImageName()

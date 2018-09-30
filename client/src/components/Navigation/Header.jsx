@@ -5,15 +5,13 @@ import * as palette from '../../style/variables';
 import { Link } from 'react-router-dom'
 
 const Header = () => (
-  <Container className="navbar navbar-light">
-    <Nav className="am2-nav">
+    <Nav className="navbar navbar-expand navbar-light justify-content-between">
       <Link brand to='/' className="navbar-brand">
-          <Logo className="hidden-sm-down" src={'/img/am2-logo-large.jpg'}/>
-          <Logo className="hidden-md-up" src={'/img/am2-logo-small.jpg'}/>
+          <Logo className="d-none d-md-block" src={'/img/am2-logo-large.jpg'}/>
+          <Logo className="d-block d-md-none" src={'/img/am2-logo-small.jpg'}/>
       </Link>
-
-      <ul className="nav navbar-nav pull-xs-right">
-          <li className="nav-item active">
+      <ul className="navbar-nav">
+          <li className="nav-item">
               <Link to='/projets' className="nav-link">Projets</Link>
           </li>
           <li className="nav-item">
@@ -24,17 +22,11 @@ const Header = () => (
           </li>
       </ul>
     </Nav>
-  </Container>
 )
-
-const Container = styled.header`
-    @media (min-width: ${palette.sm_palm}) {
-        padding: ${palette.spacing_unit__lg} 50px;
-    }
-`;
 
 const Nav = styled.nav`
     font-size: 18px;
+    margin: 25px 0;
 `;
 
 const Logo = styled.img`

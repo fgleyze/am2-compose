@@ -22,7 +22,7 @@ const Vignette = styled.img.attrs({
 	background-position: center center;
 	background-size: cover;
 	width: 100%;
-	height: 425px;
+	height: 380px;
 
     @media (max-width: ${palette.md_laptop}) {
         height: 250px;

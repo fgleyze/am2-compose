@@ -26,7 +26,7 @@ psql:
 
 .PHONY: dump-psql
 dump-psql:
-	docker exec -i am2compose_db_1 pg_dump symfony2 > outfile
+	docker exec -i am2compose_db_1 pg_dump symfony > outfile
 
 .PHONY: restore-psql
 restore-psql:

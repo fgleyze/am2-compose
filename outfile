@@ -1,0 +1,466 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.4
+-- Dumped by pg_dump version 9.6.4
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: agency; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE agency (
+    id integer NOT NULL,
+    catchword character varying(255),
+    description text NOT NULL,
+    image_name character varying(100) DEFAULT NULL::character varying,
+    update_at timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    phone character varying(255),
+    email character varying(255),
+    address character varying(255) DEFAULT NULL::character varying,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE agency OWNER TO symfony;
+
+--
+-- Name: agency_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE agency_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE agency_id_seq OWNER TO symfony;
+
+--
+-- Name: associate; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE associate (
+    id integer NOT NULL,
+    firstname character varying(255) NOT NULL,
+    lastname character varying(255) NOT NULL,
+    phone character varying(255) NOT NULL,
+    agency_id integer
+);
+
+
+ALTER TABLE associate OWNER TO symfony;
+
+--
+-- Name: associate_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE associate_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE associate_id_seq OWNER TO symfony;
+
+--
+-- Name: migration_versions; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE migration_versions (
+    version character varying(255) NOT NULL
+);
+
+
+ALTER TABLE migration_versions OWNER TO symfony;
+
+--
+-- Name: project; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE project (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL,
+    description text,
+    features text,
+    updatedat timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    agency_id integer,
+    "position" integer
+);
+
+
+ALTER TABLE project OWNER TO symfony;
+
+--
+-- Name: project_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE project_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE project_id_seq OWNER TO symfony;
+
+--
+-- Name: project_image; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE project_image (
+    id integer NOT NULL,
+    imagename character varying(255) NOT NULL,
+    updatedat timestamp(0) without time zone NOT NULL,
+    project_id integer,
+    "position" integer NOT NULL,
+    width integer NOT NULL,
+    height integer NOT NULL,
+    thumb_width integer NOT NULL,
+    thumb_height integer NOT NULL
+);
+
+
+ALTER TABLE project_image OWNER TO symfony;
+
+--
+-- Name: project_image_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE project_image_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE project_image_id_seq OWNER TO symfony;
+
+--
+-- Data for Name: agency; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY agency (id, catchword, description, image_name, update_at, phone, email, address, name) FROM stdin;
+1	Une architecture pour tous	AM2 Architecture est la collaboration de deux soeurs d'origine colombienne et diplômées Architectes HMONP ( = DPLG) en 2010. Pour enrichir leurs compétences, l’une, Martha Marin, a fait des études d'architecte d'intérieur, et l’autre, Angela Marin, d’urbanisme. Après plusieurs années de collaboration dans différentes agences d'architecture comme TOA Architectes ou Groupe 6, à Paris, Avignon, Marrakech et Bogota entre autre, elles décident en 2015 de s’associer pour créer leur propre structure. Grâce à leur bagage multiculturel et leurs formations, elles offrent, tout en étant moderne, une architecture sensible et fonctionnelle.	764af6ba1d9dffe5365c210231e65756.jpeg	2018-04-06 11:35:50	\N	am2-architecture@gmail.com	103 rue du Chemin Vert, 75011 Paris	AM2 Architecture
+\.
+
+
+--
+-- Name: agency_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('agency_id_seq', 1, true);
+
+
+--
+-- Data for Name: associate; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY associate (id, firstname, lastname, phone, agency_id) FROM stdin;
+1	Angela	Marin	0783931191	1
+2	Martha	Marin	0601020304	1
+\.
+
+
+--
+-- Name: associate_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('associate_id_seq', 2, true);
+
+
+--
+-- Data for Name: migration_versions; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY migration_versions (version) FROM stdin;
+20170905102420
+20170909092455
+20170909103436
+20170909103904
+20170909111130
+20170909112208
+20170909153228
+20170911113231
+20170925201904
+20180107101024
+\.
+
+
+--
+-- Data for Name: project; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY project (id, title, description, features, updatedat, agency_id, "position") FROM stdin;
+3	TRANSFORMATION D’UNE GRANGE EN HABITATION SECONDAIRE DANS LE PERCHE	Cette maison dans Le Perche a été achetée par une famille parisienne comme maison secondaire en 2015. Le souhait de la famille était d’agrandir la maison en y réhabilitant une ancienne grange attenante et ainsi créer : un nouvel espace de vie, deux chambres, une cuisine, une salle à manger et une salle de bain. Tout a été refait car la grange n’était pas habitable, les anciens propriétaires s’en servent comme lieu de stockage. L’espace a été divisé en deux, espace nuit et espace jour. Dans l’espace de nuit deux chambres, une salle de bain et un WC ont été créés. Dans l’espace de jour les cloisons ont été démolies pour créer un seul espace reliant le séjour, la salle à manger et la cuisine. La grande pièce devient un lieu harmonieux,  convivial et accueillant. Deux baies vitrées ont été créées pour profiter de la vue de la campagne tout en ramenant de la lumière naturelle. L’essence de cette vieille grange a été préservée et mise en valeur avec des murs en pierre et une structure en bois apparente. Un ravalement de façade avec un enduit à la chaux a été réalisé pour homogénéiser toutes les façades de la grange et conserver l’aspect traditionnel de la région Perche sarthois.	LIEU : Saint Denis des Coudrais (72)\r\nPROGRAMME : Maison\r\nNATURE DES TRAVAUX : Rénovation\r\nMISSION : Complète (de la conception à réalisation)\r\nDURÉE DES TRAVAUX : 6 mois\r\nSURFACE : 160 m²\r\nBUDGET : 150,000 €	\N	1	4
+4	RÉNOVATION D'UN APPARTEMENT AVENUE SUFFREN	Cette jeune famille qui s'agrandir vient d’acquérir ce bien immobilier près de la Tour Eiffel. Il date des années 70 et n'a jamais été rénové. Afin de bien y installer leur foyer ils souhaitent restructurer l'appartement pour qu'il corresponde à leur style de vie. Il sera donc refait entièrement mais le plus gros travail est dans la cuisine. Les propriétaires souhaitent l'ouvrir sur le séjour tout en gardant leur intimité.  Dans ce but un passe plats/bar est aménagé avec des portes coulissantes qui permettent de le fermer complètement. Tout est à refaire : sol, murs, plafond, cuisine, salle de bain, électricité et plomberie.	LIEU : Paris, 75015\r\nPROGRAMME : Appartement\r\nNATURE DES TRAVAUX : Rénovation\r\nMISSION : Complète (de la conception à réalisation)\r\nDURÉE DES TRAVAUX : 3 mois\r\nSURFACE : 97 m²\r\nBUDGET : 60,000 €	\N	1	9
+7	AMÉNAGEMENT DE BUREAUX ET DE MAGASINS DE PRÊT-À-PORTER EN îLE-DE-FRANCE	Agencement de plus de 20 agences bancaires et magasins prêt-à-porter. Les clients nous ont confié la réhabilitation des locaux, la conception des espaces, l’intégration de l’esprit de l’enseigne et la réalisation et suivi du chantier. Pour les marques avec lesquelles nous avons travaillé, l’image est primordiale et des travaux d’études ont été indispensables pour répondre parfaitement à leurs besoins.	LIEU : Paris\r\nPROGRAMME : Bureaux / Tertiaire\r\nNATURE DES TRAVAUX : Rénovation\r\nMISSION : Complète (de la conception à réalisation)\r\nCLIENT : Privé\r\nLIEU : Paris, Ile-de-France\r\nSUPERFICIE : Variable\r\nBUDGET  : 300 000€ - 1 200 000€\r\nCollaboration avec AD OS	\N	1	0
+9	STUDIO MODULABLE, 12m² à Paris	Ce studio de 12 m² au cœur du 11 ème arrondissement a été réaménagé pour accueillir un étudiant ou un jeune couple. L'agencement de l'espace avec un lit escamotable permet de moduler la pièce en espace jour ou nuit. La cuisine riche en rangements, le frigo et le lave-linge encastrés ainsi que le dressing font un ensemble qui s'insère discrètement dans la pièce. Tout en restant confortable, la salle de bain a été réduite à l’essentiel pour dégager le plus d'espace de vie.	LIEU : Paris, 75011 \r\nPROGRAMME : Habitation\r\nNATURE DES TRAVAUX : Rénovation\r\nMISSION : Complète (de la conception à réalisation)\r\nDURÉE DES TRAVAUX : 2 mois\r\nSURFACE : 12 m²\r\nBUDGET : 14 500 €	\N	1	6
+2	SALLE DE JEUX SOUS COMBLES	Nous avons été contactées pour repenser et rendre habitables les combles d'une maison. Au programme : isolation des combles, puits de lumière, une chambre avec une salle de bain, un grand espace de jeux et une buanderie. \r\nLe cœur du projet est la salle de jeux. Le jeune couple cherchait à trouver un espace protégé de la pluie et du vent pour que leurs deux enfants puissent y dépenser leur énergie. L’espace reste est ouvert mais avec des zones clairement identifiées, le tout relié par un mur d'escalade. Nous avons restauré  et laissé apparente la charpente en bois ce qui donne une ambiance plus chaleureuse à la pièce. Le volume est mis en valeur par les 6 velux crées apportent de la lumière et de la ventilation naturelle. Les zones à faible hauteur sont optimisées avec des casiers de rangements sur roulettes. Un coin salon est aménagé à l'arrivé des escaliers pour que les parents puissent partager ce moment de défoulement des enfants.	LIEU : Cesson, 77240\r\nPROGRAMME : Maison\r\nNATURE DES TRAVAUX : Rénovation\r\nMISSION : Complète (de la conception à réalisation)\r\nDURÉE DES TRAVAUX : 1.5 mois\r\nSURFACE : 60 m²\r\nBUDGET : 50,000 €	\N	1	3
+11	EN COURS : VINTAGE EN BLEU	Rénovation complète d'un 46m² dans le 11ème, Paris\r\nCette jeune propriétaire fait appel à nous pour réaménager son appartement. Sa passion : la cuisine. A l'achat, la cuisine était dans l'espace de circulation, sans fenêtre ni aération. Elle souhaite avoir une pièce lumineuse, fonctionnelle et agréable à vivre. L'appartement a été réorganisé avec cette priorité. La chambre, longue et étroite, à été dotée d'un grand "dressing / tête de lit / tables de nuit / bureaux" sur mesure et intégré pour en faire un ensemble. La nouvelle salle de bain bénéficie d'une bonne lumière à deuxième jour. Des rangements ont été intégrés dans l'entrée et le salon.	LIEU : 75011, Paris\r\nPROGRAMME : Habitation\r\nNATURE DES TRAVAUX : Rénovation\r\nMISSION : Complète (de la conception à réalisation)\r\nDURÉE DES TRAVAUX : 4 mois\r\nSURFACE : 46 m²\r\nBUDGET : 45 000 €	\N	1	10
+10	VERS LA LUMIERE	Rénovation complète à la Butte aux Cailles, Paris\r\nLa propriétaire nous a contactées pour rénover ce Rez-de-Chaussée des années 70 qui n'a jamais été remis à jour. L'objectif principal était de le rendre plus lumineux et agréable à vivre. L'entrée a été décloisonnée et dotée de rangements intégrés. La chambre sans fenêtre est devenue une belle pièce séparée du salon par une verrière à portes coulissante. Cette astuce permet à la fois de moduler l'espace et de bénéficier d'une généreuse lumière en deuxième jour. La cuisine à été ouverte sur le séjour ce qui contribue à l’agrandissement visuel de l'espace.	LIEU : 75013 Paris\r\nPROGRAMME : Habitation\r\nNATURE DES TRAVAUX : Rénovation\r\nMISSION : Complète (de la conception à réalisation)\r\nDURÉE DES TRAVAUX : 2 mois\r\nSURFACE : 12 m²\r\nBUDGET : 14 500 €	\N	1	8
+12	ESPACE CULTUREL 'LÉON COLOMBIER' À CAVAILLON, LUBERON	Ancienne maison de famille, louée par la suite à Mr Colombier comme lieu de vie et atelier de travail a été donné à la ville de Cavaillon par la propriétaire à sa mort. D’abord devenue un foyer pour personnes âgées, aujourd’hui la ville souhaite y créer un lieu de culture et d’exposition comme son ancienne propriétaire l’aurai voulu. Nous travaillons en collaboration avec L’Atelier Gleyze pour concevoir lieu de convivialité où des expositions d’art et d’autres manifestations culturelles pourront y avoir lieu. Les deux premiers étages seront consacrés aux lieux d’exposition et le 3ème aux bureaux de fonctionnement. Le grand jardin accueillera un préau-buvette (ou cafétéria) et des espaces sensorielles typiques de la région.	LIEU : Cavaillon, Luberon 84\r\nPROGRAMME : Transformation d'une maison en lieu culturel\r\nNATURE DES TRAVAUX : Rénovation\r\nMISSION : Faisabilité 2017\r\nSURFACE : 420 m² (salles d'expo et bureaux) + 370 m2 jardin et buvette\r\nBUDGET : 30,000 €\r\nEn Collaboration avec l'Atelier Gleyze	\N	1	1
+6	UNE PIÈCE EN PLUS À NOGENT-SUR-MARNE	Le projet a vu le jour pour accueillir un couple qui attend un enfant dans ce 2 pièces de 55 m2. L’idée de départ était d’avoir une pièce en plus en transformant la cuisine en petite chambre d’enfant. Des rangements supplémentaires étaient nécessaires et des placards ont été créés des deux côtés la circulation de l’appartement, ce lieu est devenu le dressing familial. Une cuisine ouverte sur le séjour a été aménagée autour d’un îlot central multifonctions (cuisiner et se restaurer) pour laisser le maximum d’espace à un séjour confortable et tourné vers un grand balcon. La famille voulant être au plus proche de la lumière et de la vue imprenable sur la ligne d’horizon des villes des bords de Marne. Les matériaux utilisés pour la rénovation sont la pierre et le bois avec des couleurs neutres dans la salle de bain et le WC (entièrement refaits). La cuisine est en blanc dans un souci de discrétion, avec une crédence en pierre grise pour contraster avec les placards. Une touche de couleur a été amenée avec un frigo vintage orange, qui sépare symboliquement le séjour de la cuisine.	LIEU : Nogent-sur-Marne\r\nPROGRAMME : Appartement\r\nNATURE DES TRAVAUX : Rénovation\r\nMISSION : Complète (de la conception à réalisation)\r\nDURÉE DES TRAVAUX : 2 mois\r\nSURFACE : 55 m²\r\nBUDGET : 30,000 €	\N	1	2
+8	LA RUCHE QUI DIT OUI : ESPACE DE TRAVAIL CONVIVIAL, À PARIS	La Ruche Qui Dit Oui fait appel à nous pour traduire leur philosophie et principes dans l’architecture de leurs nouveaux bureaux à Bastille. Ils souhaitent donner une nouvelle image aux clients et aux investisseurs : une start-up solide qui s’installe sereinement dans le marché ; une boîte moderne, qui évolue et qui est prête à se développer au-delà des frontières. Les locaux qui leur tient le plus au cœur nous sont confiés : la cuisine, une salle à manger et la salle de jeux.\r\n\r\nLa cuisine est un lieu particulièrement clé pour la Ruche puisque les employés s’y réunissent pour préparer ensemble le repas de midi ou pour un apéro, cette salle est conçue pour être modulable et fluide. Un îlot centrale est crée pour pouvoir tous s’installer autour cuisiner ensemble. \r\n\r\nLa salle à manger est le lieux de partage aussi bien pour le repas que pour les grandes réunions de l'entreprise. Elle est dotée d'une structure bois qui jeux un rôle important pour l'acoustique de la salle aussi bien qu'elle permet d'intégrer luminaires, vidéo projecteur, haut parleurs, cimaise,... \r\n\r\nLa salle de jeux et de musique, au sous-sol, est traitée comme un monde en soit. Le bois, la récupération des voûtes en brique jadis cachées, la perspective en fond de salle, les lumières atténuées et les formes géométriques des voûtes et du banc périphérique donnent une ambiance d’immersion dans un univers de jeux vidéos ou de concert rock.	LIEU : Bastille Paris\r\nPROGRAMME : Bureaux\r\nNATURE DES TRAVAUX : Rénovation\r\nMISSION : Complète (de la conception à réalisation)\r\nDURÉE DES TRAVAUX : 5 mois\r\nSURFACE : 1 000 m²\r\nBUDGET : 130,000 €	\N	1	5
+13	BUREAUX DE START-UP	La Ruche Qui Dit Oui fait appel à nous pour traduire leur philosophie et principes dans l’architecture de leurs nouveaux bureaux à Bastille. Ils souhaitent donner une nouvelle image aux clients et aux investisseurs : une start-up solide qui s’installe sereinement dans le marché ; une boite moderne, qui évolue et qui est prête à se développer au-delà des frontières. Les locaux qui leur tient le plus au cœur nous sont confiés : des salles de réunion pour différents types de publics, un brainstorming cosi d’où sortiront toutes les nouvelles idées de l’entreprise et une salle de détente et de réunions internes qui coupe du quotidien.\r\n\r\nCrédit photo: Giaime Meloni	LIEU : Bastille, Paris\r\nCLIENT: La Ruche Qui Dit Oui\r\nPROGRAMME : Tertiaire \r\nNATURE DES TRAVAUX : Rénovation\r\nMISSION : Complète (de la conception à réalisation)\r\nDURÉE DES TRAVAUX : 5 mois\r\nSURFACE : 1 000 m²\r\nBUDGET : 119,000 €\r\nCALENDRIER : 2017\r\nPartenariat avec BäN Architecture	\N	1	7
+\.
+
+
+--
+-- Name: project_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('project_id_seq', 13, true);
+
+
+--
+-- Data for Name: project_image; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY project_image (id, imagename, updatedat, project_id, "position", width, height, thumb_width, thumb_height) FROM stdin;
+39	d9436cfb8f1bef7647282e273308e645.jpeg	2018-08-09 09:48:09	6	3	1517	1100	500	363
+11	3e43c524726a097cc51a536ff5ef0810.jpeg	2018-07-21 13:42:04	4	0	5745	3830	500	333
+40	02547b896ffde8c302300e62d0e8f445.jpeg	2018-08-09 09:48:33	6	4	723	1100	500	761
+41	5ced467be501421fd0d0817c993cce33.jpeg	2018-08-09 09:48:52	6	5	666	1100	500	826
+42	7dfdc4e0e58752b5ef9387e8d191b3f2.jpeg	2018-08-09 10:02:33	6	6	3072	2304	500	375
+43	b2f08d89aceb4185a7998c28263a9856.jpeg	2018-08-09 10:02:57	6	7	3072	2304	500	375
+44	f6d4ebc3939c8fa15b207b3c0f3bf742.jpeg	2018-08-09 10:03:38	6	8	3072	2304	500	375
+50	039cf2f5424689a165acb1fd0a6f3927.jpeg	2018-08-09 10:23:57	2	0	5312	2988	500	281
+52	232d70edc56f96722f52d8dc510a0428.jpeg	2018-08-09 10:24:43	2	2	5312	2988	500	281
+51	f5ef18c7732713fff60d72c432c73697.jpeg	2018-08-09 10:24:13	2	1	5312	2988	500	281
+53	0f9c14fb417ab5ec673cf399a524f644.jpeg	2018-08-09 10:25:06	2	3	5312	2988	500	281
+54	aa0f7b4213863b50ef8f0759a9a81d37.jpeg	2018-08-09 10:25:24	2	4	5312	2988	500	281
+55	fd2113b400e91145fc44aa7513822b02.jpeg	2018-08-09 10:25:42	2	5	2988	5312	500	889
+24	9abf0d6504baad30f758b624d582e759.jpeg	2018-07-21 14:57:36	4	1	5745	3830	500	333
+12	c6a38570ff4bb3ba7152bc3513d6901d.jpeg	2018-07-21 14:27:51	4	2	5760	3840	500	333
+13	ff075337fdd3ae0a61befc04b0d3c050.jpeg	2018-07-21 14:07:41	4	3	5603	3735	500	333
+14	003e39bc1cc8fa96675190c6ffdfc6bd.jpeg	2018-07-21 14:08:30	4	4	5760	3840	500	333
+15	4cafb6438704d5c88b6ff2b4f546c09f.jpeg	2018-07-21 14:08:33	4	5	5398	3599	500	333
+16	3ad975e78ed52067c30cc9f064e10320.jpeg	2018-07-21 14:13:45	4	7	5711	3807	500	333
+17	48b3f60d2a3afcdaead3c1074277ca32.jpeg	2018-07-21 14:13:49	4	8	5760	3840	500	333
+18	c198ffb059542b8a27477d9be98b7c59.jpeg	2018-07-21 14:24:40	4	9	5760	3840	500	333
+19	7d49b64713163728daa03dec6f51773b.jpeg	2018-07-21 14:24:44	4	6	5760	3840	500	333
+20	dac96373c1f6068ddf0d87409f1285db.jpeg	2018-07-21 14:30:12	4	10	5668	3779	500	333
+21	ee66685e599b3a66d37da534e5b6c8f9.jpeg	2018-07-21 14:30:13	4	11	1280	853	500	333
+22	5bf07a29087478527e6c04e9dbb81b84.jpeg	2018-07-21 14:54:38	4	12	1280	853	500	333
+23	9bd37f8c1bc1b6f07c96656bc2f170b4.jpeg	2018-07-21 14:54:38	4	13	1280	853	500	333
+25	9e5c4369f5d39c03fa831990b48ea075.jpeg	2018-08-09 09:30:31	3	0	3264	2000	500	306
+26	61336b849f45786a26445d22c2d0378c.jpeg	2018-08-09 09:30:51	3	1	3264	2000	500	306
+27	fe7b6b79c22a4fc6cbc4dbf0d88539ff.jpeg	2018-08-09 09:31:07	3	2	3456	2304	500	333
+28	87da26f2ece474a30458d0ed657c6c7c.jpeg	2018-08-09 09:31:43	3	3	2220	3336	500	751
+29	0d3b111f87fe6f8f541af9e33db7a2a3.jpeg	2018-08-09 09:31:59	3	4	2304	3456	500	750
+30	bf07d099918c4b865fae3521a92b6451.jpeg	2018-08-09 09:32:28	3	5	3203	2304	500	360
+31	ade8d1a95d5098bae14315dcc19f712a.jpeg	2018-08-09 09:33:02	3	6	3456	2304	500	333
+34	23692d61f4f94bdba32c1ae4d253d704.jpeg	2018-08-09 09:41:17	3	7	3840	2160	500	281
+35	1310e7e0801ca6518672f29b487f1eaa.jpeg	2018-08-09 09:42:03	3	8	1268	888	500	350
+36	7f8f1a3e24a682596122e44ebd9df679.jpeg	2018-08-09 09:47:25	6	0	1623	1100	500	339
+37	31884e76ce71ee74b28efb51ce809c30.jpeg	2018-08-09 09:47:38	6	1	1623	1100	500	339
+38	2f6f68dce34bffdcd348c6bc764ba1d1.jpeg	2018-08-09 09:47:51	6	2	1616	1100	500	340
+56	ee7721ea00b71faae87e4f6d10f96143.jpeg	2018-08-09 10:27:14	2	6	2988	5312	500	889
+57	f9a0847086869b465b7d9c4290124a5c.jpeg	2018-08-09 10:27:37	2	7	2988	5312	500	889
+59	3a2bdc60d0d1df239548cef6a999b29a.jpeg	2018-08-09 12:32:28	8	0	1200	800	500	333
+60	11ca620c2053eb9a7fa5d970101ea4bd.jpeg	2018-08-09 12:32:52	8	1	1200	800	500	333
+61	084a6993ecd75eb63ad928f693d8a69c.jpeg	2018-08-09 12:33:14	8	2	800	1200	500	750
+62	e5735cf286b5590c88cad729711d7e2b.jpeg	2018-08-09 12:33:32	8	3	800	1200	500	750
+63	68bd218186cfe36d532e72f7c63e2ac4.jpeg	2018-08-09 12:33:59	8	4	800	1200	500	750
+84	48203162c01f1ce7a4cafa511bd77117.jpeg	2018-08-09 12:56:14	8	5	3264	1836	500	281
+85	2e203d9af553e1f0172115c44dc072f7.jpeg	2018-08-09 12:56:54	8	6	800	1200	500	750
+86	63196a8dcf5771b8ec10953e0f110f3e.jpeg	2018-08-09 12:57:16	8	7	1200	800	500	333
+87	5ca80bbdf37116e590a0020001ba79f9.jpeg	2018-08-09 12:57:30	8	8	800	1200	500	750
+88	70c9df5459a522730bf93d91ea28e4e9.jpeg	2018-08-09 12:58:05	8	9	3264	1836	500	281
+89	1884044c6f6f5a8a04406fcf8e993b8a.jpeg	2018-08-09 12:59:04	8	10	1200	800	500	333
+90	62461ad9b6bd06483bd4658e0343105a.jpeg	2018-08-09 12:59:30	8	11	800	1200	500	750
+91	f81091d4b26c41a7440edf133b8ef4a3.jpeg	2018-08-09 13:00:07	8	12	800	1200	500	750
+92	d0b8cd4266617816d1724e9f00aa9b6a.jpeg	2018-08-09 13:00:33	8	13	3264	1836	500	281
+93	856e83d6b3261b80e7ba2fbefcc2f4ab.jpeg	2018-08-09 13:40:41	9	0	3000	2000	500	333
+94	0ad92a39484ba88e5bde608528976ae0.jpeg	2018-08-09 13:40:54	9	1	3000	2000	500	333
+99	e13bba44d0f8a55a2c1a6814b943c6ad.jpeg	2018-08-09 13:42:47	9	6	2000	3000	500	750
+95	43adcf04b615dd017619221a130e9ac9.jpeg	2018-08-09 13:41:36	9	2	3000	2000	500	333
+96	2d41cb7d0c63e66ab9b1f33ceffaf37c.jpeg	2018-08-09 13:41:52	9	3	3000	2000	500	333
+97	a6c448097a03547690821ed71c733b69.jpeg	2018-08-09 13:42:17	9	4	3000	2000	500	333
+98	9d3a2d4a9b711cfe90e8557e1c763c52.jpeg	2018-08-09 13:42:30	9	5	3000	2000	500	333
+100	f28b5961d7dc05d3aa2af6e35cf9efcc.jpeg	2018-08-09 13:43:13	9	7	3024	4032	500	667
+101	0cc804b7aa0e30032012b29d71bf53af.jpeg	2018-08-09 13:43:31	9	8	4032	3024	500	375
+102	249fc9f58d92c4b4d2459c42eb4c4609.jpeg	2018-08-09 13:43:52	9	9	3024	4032	500	667
+103	36e82fd4d50566b029dbbc76e0ec0248.jpeg	2018-08-09 13:44:13	9	10	3024	4032	500	667
+46	cfbae653ddc17c7a3d4f094cad672aa9.jpeg	2018-08-09 10:12:54	7	2	2835	2125	500	375
+47	ad5ef289446ccba0ccb4063d6e40ecda.jpeg	2018-08-09 10:13:28	7	3	2454	1440	500	293
+45	c168a36166eae8a1a1db4bba9b088937.jpeg	2018-08-09 16:20:38	7	0	2426	1820	500	375
+108	7bf25bed82c5df145705dab6965a836c.jpeg	2018-08-09 14:35:01	10	3	1278	852	500	333
+116	dcbdc3a7d913c827ef8ad4825f2ec432.jpeg	2018-08-09 15:24:32	11	0	3024	4032	500	667
+121	6ce7c48f6264edfb9305cce670d833e3.jpeg	2018-08-09 15:27:32	11	6	3024	4032	500	667
+122	38750cc6f1e31a7c2b16d6aec8738f72.jpeg	2018-08-09 15:27:51	11	7	3024	4032	500	667
+123	b90df0b0f0fd09a7b745321d6b93cdc6.jpeg	2018-08-09 15:28:28	11	8	3024	4032	500	667
+124	ec0afc09615174f2cac1aa4947c9ffe1.jpeg	2018-08-09 15:28:49	11	9	3024	4032	500	667
+125	a3885d765d90dc2e074e51133482c183.jpeg	2018-08-09 15:29:11	11	10	3024	4032	500	667
+126	ca96024251f9c750b9df6c1dad6beabd.jpeg	2018-08-09 15:29:29	11	11	3024	4032	500	667
+127	467c32465575ddd411aa41a48a5086a9.jpeg	2018-08-09 15:45:04	12	0	1800	944	500	262
+130	3f9565184fca85b066e9c8f50d6e5c77.jpeg	2018-08-09 15:45:51	12	3	800	600	500	375
+134	8475e262587aac2ba9a563f98decfd59.jpeg	2018-08-09 16:09:14	13	0	800	1200	500	750
+107	462876a2196fa023ec356816800b3c32.jpeg	2018-08-09 14:35:00	10	0	852	1278	500	750
+145	5e8d258a91b4f18b4ac3df629d24fd25.jpeg	2018-08-09 16:17:27	13	1	800	1200	500	750
+135	c9f42943a096802290c3dac17048e276.jpeg	2018-08-09 16:09:39	13	2	3264	1836	500	281
+137	eb5be56adffc9987260a9026838b4af2.jpeg	2018-08-09 16:10:49	13	3	1200	800	500	333
+138	44d829d27cad816d5ec12483d3194ad4.jpeg	2018-08-09 16:11:13	13	4	800	1200	500	750
+139	8060893bbbc9efe361db0d8676b72842.jpeg	2018-08-09 16:11:24	13	5	800	1200	500	750
+140	9fe6e2911e90cc46fbc2433de7b85d5c.jpeg	2018-08-09 16:11:38	13	6	3264	1836	500	281
+141	545cfb2b4feb74de9cd2f730c6cb4066.jpeg	2018-08-09 16:12:00	13	7	800	1200	500	750
+142	7f654c201ab66b70301e90f2dfd48fc5.jpeg	2018-08-09 16:12:17	13	8	800	1200	500	750
+143	b41f38e9c4b2f9d0e8f590192dc2ac17.jpeg	2018-08-09 16:12:41	13	9	800	1200	500	750
+144	5681e79e1e0005dacd877ea387a3da7a.jpeg	2018-08-09 16:13:02	13	10	1834	2759	500	752
+146	c7b44880c7acaf0222ec8fb303acaf77.jpeg	2018-08-09 16:18:48	12	4	1800	944	500	262
+128	830ba77f4ad951d4e883b0c14c457572.jpeg	2018-08-09 15:45:04	12	2	1800	946	500	263
+129	ca6f25f5dc0c1b48562097c782e2257a.jpeg	2018-08-09 15:45:20	12	1	2879	1515	500	263
+131	cf945848c51be059667a3478da0f0536.jpeg	2018-08-09 15:45:51	12	5	908	681	500	375
+132	608b789b0dcf1aa3c95e36f79f8bc2bd.jpeg	2018-08-09 15:46:36	12	6	1024	768	500	375
+133	cdfbd0bf2f8aced8abefbb64f3a76133.jpeg	2018-08-09 15:46:36	12	7	1024	768	500	375
+113	aa1d3bdf834d86c84bea6df34c804ab8.jpeg	2018-08-09 14:36:52	10	8	1278	852	500	333
+114	b27607704ef4580fd4bdc59785698266.jpeg	2018-08-09 14:37:06	10	9	1278	852	500	333
+149	588dde2fa69a6e510eae54131ac96285.jpeg	2018-08-09 16:27:19	11	1	3024	4032	500	667
+49	bfeead29fb3310e803c88e267a674138.jpeg	2018-08-09 10:15:20	7	5	591	394	591	394
+147	a6a4e1ad6a6d027a2f7baaf594cf0e41.jpeg	2018-08-09 16:20:13	7	1	2426	1820	500	375
+48	112e7ee9612ce5ef7ce58426029e7a60.jpeg	2018-08-09 10:14:45	7	4	2330	1748	500	375
+148	a4d485440ed18b1577ef040b4e26642b.jpeg	2018-08-09 16:24:54	10	1	852	1278	500	750
+104	c7df90b264b8c7b90c42ef53cb07e546.jpeg	2018-08-09 14:32:14	10	2	1278	852	500	333
+109	43527ccdd3ed665424f899a8b142f408.jpeg	2018-08-09 14:35:26	10	4	1278	852	500	333
+110	6f8f1858446d60a4ff615e4df8d5b89d.jpeg	2018-08-09 14:35:42	10	5	1278	852	500	333
+111	903d4e7681536622944913de836a61d7.jpeg	2018-08-09 14:36:05	10	6	1278	852	500	333
+112	d3429d50525bd2ddc7bb0578383f518e.jpeg	2018-08-09 14:36:32	10	7	1278	852	500	333
+117	5a5cf8a138976bc3a0ca12e070a6b831.jpeg	2018-08-09 15:25:55	11	2	4032	3024	500	375
+118	0780274c34edcc88c3afad77c6c5e248.jpeg	2018-08-09 15:26:12	11	3	3024	4032	500	667
+119	0e9671d6b5d5e9bec73319c29ae8ba30.jpeg	2018-08-09 15:26:42	11	4	4032	3024	500	375
+120	bf0117fb4c1eec51a2e823ed99c53657.jpeg	2018-08-09 15:27:13	11	5	2964	3951	500	666
+\.
+
+
+--
+-- Name: project_image_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('project_image_id_seq', 149, true);
+
+
+--
+-- Name: agency agency_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY agency
+    ADD CONSTRAINT agency_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: associate associate_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY associate
+    ADD CONSTRAINT associate_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: migration_versions migration_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY migration_versions
+    ADD CONSTRAINT migration_versions_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: project_image project_image_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY project_image
+    ADD CONSTRAINT project_image_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project project_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY project
+    ADD CONSTRAINT project_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: idx_2fb3d0eecdeadb2a; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_2fb3d0eecdeadb2a ON project USING btree (agency_id);
+
+
+--
+-- Name: idx_cce5d25cdeadb2a; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_cce5d25cdeadb2a ON associate USING btree (agency_id);
+
+
+--
+-- Name: idx_d6680dc1166d1f9c; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_d6680dc1166d1f9c ON project_image USING btree (project_id);
+
+
+--
+-- Name: project fk_2fb3d0eecdeadb2a; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY project
+    ADD CONSTRAINT fk_2fb3d0eecdeadb2a FOREIGN KEY (agency_id) REFERENCES agency(id);
+
+
+--
+-- Name: associate fk_cce5d25cdeadb2a; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY associate
+    ADD CONSTRAINT fk_cce5d25cdeadb2a FOREIGN KEY (agency_id) REFERENCES agency(id);
+
+
+--
+-- Name: project_image fk_d6680dc1166d1f9c; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY project_image
+    ADD CONSTRAINT fk_d6680dc1166d1f9c FOREIGN KEY (project_id) REFERENCES project(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
