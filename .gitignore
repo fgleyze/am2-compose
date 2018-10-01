@@ -18,3 +18,4 @@
 /web/upload/*
 /php-variables.env
 /.idea/*
+/docker/nginx/default.conf
