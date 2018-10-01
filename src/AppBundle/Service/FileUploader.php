@@ -48,8 +48,8 @@ class FileUploader
     {
         $imagick = new \Imagick(realpath($projectPath . '/' . $image));
         $geometryInfo = $imagick->getImageGeometry();
-        if ($geometryInfo['height'] > 500) {
-            $imagick->resizeImage(500, intval(500/$geometryInfo['height']), \Imagick::FILTER_LANCZOS, 1);
+        if ($geometryInfo['height'] > 630) {
+            $imagick->thumbnailImage(630, null);
         }
         $imagick->writeImage();
         $imagick->clear();

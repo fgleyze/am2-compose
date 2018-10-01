@@ -4,10 +4,18 @@
     <h4>{{ project.title }}</h4>
 
     {{ form_start(edit_form, { 'attr': {'class': 'mb-4'} }) }}
+        <input type="submit" value="Save changes" class="btn btn-primary mr-2"/>
+
         <div class="form-group">
             {{ form_label(edit_form.title) }}
             {{ form_errors(edit_form.title) }}
             {{ form_widget(edit_form.title, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(edit_form.published) }}
+            {{ form_errors(edit_form.published) }}
+            {{ form_widget(edit_form.published, { 'attr': {'class': 'form-control'} }) }}
         </div>
 
         <div class="form-group">
@@ -17,7 +25,7 @@
         </div>
 
         <div class="form-group">
-            {{ form_label(edit_form.description) }}
+            {{ form_label(edit_form.description, 'Description. Pour un lien: <a target="_blank" href="LIEN ICI">TEXTE ICI</a>') }}
             {{ form_errors(edit_form.description) }}
             {{ form_widget(edit_form.description, { 'attr': {'class': 'form-control', 'rows': 10} }) }}
         </div>

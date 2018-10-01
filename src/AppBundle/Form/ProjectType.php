@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,6 +21,12 @@ class ProjectType extends AbstractType
             ->add('position')
             ->add('description')
             ->add('features')
+            ->add('published', ChoiceType::class, array(
+                'choices'  => array(
+                    'Yes' => true,
+                    'No' => false,
+                ),
+            ))
             ->add('projectImages', CollectionType::class, array(
                 'entry_type' => ProjectImageType::class,
                 'allow_add' => true,

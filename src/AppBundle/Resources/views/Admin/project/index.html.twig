@@ -6,6 +6,7 @@
             <tr>
                 <th>Title</th>
                 <th>Position</th>
+                <th>Published</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -14,6 +15,7 @@
             <tr>
                 <td>{{ project.title }}</td>
                 <td>{{ project.position }}</td>
+                <td>{{ project.isPublished ? 'Yes' : 'No' }}</td>
                 <td>
                     <a href="{{ path('projects_edit', { 'id': project.id }) }}">edit</a>
                 </td>

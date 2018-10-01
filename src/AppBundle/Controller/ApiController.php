@@ -110,7 +110,10 @@ class ApiController extends Controller
 			$agency = $this->getDoctrine()->getManager()->find(Agency::class, $request->attributes->get('id'));
 		}
 
-		$projects = $this->getDoctrine()->getManager()->getRepository(Project::class)->findByAgency($agency, array('position' => 'DESC'));
+		$projects = $this->getDoctrine()->getManager()->getRepository(Project::class)->findBy(
+			array('agency' => $agency, 'published' => true),
+			array('position' => 'DESC')
+		);
 
 		$projectsView = array();
 
@@ -153,7 +156,7 @@ class ApiController extends Controller
 			"id" => $project->getId(),
 			"title" => $project->getTitle(),
 			"features" => explode("\n", $project->getFeatures()),
-			"description" => $project->getDescription(),
+			"description" => nl2br($project->getDescription()),
 			"images" => $imagesView,
 		);
 

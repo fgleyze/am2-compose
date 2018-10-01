@@ -50,7 +50,14 @@ class Project
      * @ORM\Column(name="features", type="text", nullable=true)
      */
     private $features;
-    
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="published", type="text", nullable=true)
+     */
+    private $published = false;
+
     /**
      * @var string
      *
@@ -159,11 +166,25 @@ class Project
         return $this->features;
     }
 
+    public function setPublished($published)
+    {
+        $this->published = boolval($published);
+    }
+
+    public function getPublished()
+    {
+        return (bool) $this->published;
+    }
+
+    public function isPublished()
+    {
+        return (bool) $this->published == true;
+    }
+
     public function getImages()
     {
         return $this->projectImages;
     }
-
 
     public function getUpdatedAt()
     {
